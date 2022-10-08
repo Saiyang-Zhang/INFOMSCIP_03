@@ -12,6 +12,8 @@ Random points generator
 def generate_points(pt_number, f, polygon):
     in_points = []
     out_points = []
+    polygon = path.Path(polygon)
+
     for i in range(pt_number):
         point = np.random.rand(2,1)
         point *= 10
@@ -42,7 +44,7 @@ def generate_points(pt_number, f, polygon):
 Data writer
 """
 
-def save_points(in_points, out_points, save_path):
+def save_points(in_points, out_points, polygon, save_path):
     fig= plt.figure(figsize=(5, 5))
     ax = plt.subplot()
 
@@ -55,32 +57,32 @@ def save_points(in_points, out_points, save_path):
     ax.scatter(in_points[:, 0], in_points[:, 1], s=5, c="blue")
     ax.scatter(out_points[:, 0], out_points[:, 1], s=5, c="red")
 
-    patch = Polygon([a, b, c])
+    patch = Polygon(polygon)
     patch.set_fill(False)
     ax.add_patch(patch)
 
     # plt.show()    
-    np.save(save_path+"in.npy", in_points)
-    np.save(save_path+"out.npy", out_points)
-    plt.savefig(save_path+"img.png")
+    np.save(save_path+"_in.npy", in_points)
+    np.save(save_path+"_out.npy", out_points)
+    plt.savefig(save_path+"_img.png")
 
 """
 Triangle
 """
 
-a = [3, 3]
-b = [7, 3]
-c = [7, 7]
-
-triangle = path.Path([a, b, c])
+triangle = [
+    [3, 3],
+    [7, 3],
+    [7, 7]
+]
 
 """
 Sample
 """
 
-in_points, out_points = generate_points(500, 0, triangle)
+# in_points, out_points = generate_points(500, 0, triangle)
 
-save_points(in_points, out_points, "Sample_")
+# save_points(in_points, out_points, triangle, "Sample")
 
 """
 Generate points of different density
@@ -93,7 +95,7 @@ Generate points of different density
 
 #     save_path = "n/n_"+str(n)
 
-#     save_points(in_points, out_points, save_path)
+#     save_points(in_points, out_points, triangle, save_path)
 
 """
 Generate points of different fractions of outliers
@@ -106,53 +108,27 @@ Generate points of different fractions of outliers
 
 #     save_path = "f/f_"+str(f)
 
-#     save_points(in_points, out_points, save_path)
+#     save_points(in_points, out_points, triangle, save_path)
 
 """
 Generate points within triangles of different perimeters
 """
 
-# triangles = [
-#     [[3, 3], [7, 3], [, 7]],
-#     [[3, 3], [7, 3], [, 7]],
-#     [[3, 3], [7, 3], [, 7]],
-#     [[3, 3], [7, 3], [, 7]],
-#     [[3, 3], [7, 3], [, 7]],
-#     [[3, 3], [7, 3], [, 7]],
-#     [[3, 3], [7, 3], [, 7]]
-# ]
-
-# triangles = [
-#     [[, ], [, ], [, ]],
-#     [[, ], [, ], [, ]],
-#     [[, ], [, ], [, ]],
-#     [[, ], [, ], [, ]],
-#     [[, ], [, ], [, ]],
-#     [[, ], [, ], [, ]],
-#     [[, ], [, ], [, ]]
-# ]
+triangles = [
+    [[3, 3], [7, 3], [5, 7]],
+    [[3, 3], [7, 3], [6, 7]],
+    [[3, 3], [7, 3], [7, 7]],
+    [[3, 3], [7, 3], [8, 7]],
+    [[3, 3], [7, 3], [9, 7]],
+    [[2, 3], [6, 3], [9, 7]],
+    [[1, 3], [5, 3], [9, 7]]
+]
 
 # for i in range(7):
+#     t = triangles[i]
 
-#     in_points, out_points = generate_points(500, triangle)
+#     in_points, out_points = generate_points(500, 0, t)
     
-#     fig= plt.figure(figsize=(5, 5))
-#     ax = plt.subplot()
+#     save_path = "p/p_"+str(i+1)
 
-#     plt.xlim((0, 10))
-#     plt.ylim((0, 10))
-
-#     plt.xticks([])
-#     plt.yticks([])
-
-#     ax.scatter(in_points[:, 0], in_points[:, 1], s=5, c="blue")
-#     ax.scatter(out_points[:, 0], out_points[:, 1], s=5, c="red")
-
-#     patch = Polygon([a, b, c])
-#     patch.set_fill(False)
-#     ax.add_patch(patch)
-
-#     # plt.show()    
-#     np.save("./p/p_"+str(f)+"_in.npy", in_points)
-#     np.save("./p/p_"+str(f)+"_out.npy", out_points)
-#     plt.savefig("./p/p_"+str(f)+"_img.png")
+#     save_points(in_points, out_points, t, save_path)
