@@ -9,7 +9,7 @@ import numpy as np
 Random points generator
 """
 
-def generate_points(pt_number, polygon):
+def generate_points(pt_number, f, polygon):
     in_points = []
     out_points = []
     for i in range(pt_number):
@@ -19,7 +19,50 @@ def generate_points(pt_number, polygon):
             in_points.append(point)
         else:
             out_points.append(point)
-    return np.array(in_points), np.array(out_points)
+    
+    in_points = np.array(in_points)
+    out_points = np.array(out_points)
+    
+    if(f != 0):
+        num_in_outliers = int(f*len(in_points))
+        num_out_outliers = int(f*len(out_points))
+        
+        np.random.shuffle(in_points)
+        np.random.shuffle(out_points)
+
+        in_outliers = in_points[:num_in_outliers, :]
+        out_outliers = out_points[:num_out_outliers, :]
+
+        in_points = np.vstack((in_points[num_in_outliers:, :], out_outliers))
+        out_points = np.vstack((out_points[num_out_outliers:, :], in_outliers))
+    
+    return in_points, out_points
+
+"""
+Data writer
+"""
+
+def save_points(in_points, out_points, save_path):
+    fig= plt.figure(figsize=(5, 5))
+    ax = plt.subplot()
+
+    plt.xlim((0, 10))
+    plt.ylim((0, 10))
+
+    plt.xticks([])
+    plt.yticks([])
+
+    ax.scatter(in_points[:, 0], in_points[:, 1], s=5, c="blue")
+    ax.scatter(out_points[:, 0], out_points[:, 1], s=5, c="red")
+
+    patch = Polygon([a, b, c])
+    patch.set_fill(False)
+    ax.add_patch(patch)
+
+    # plt.show()    
+    np.save(save_path+"in.npy", in_points)
+    np.save(save_path+"out.npy", out_points)
+    plt.savefig(save_path+"img.png")
 
 """
 Triangle
@@ -35,58 +78,22 @@ triangle = path.Path([a, b, c])
 Sample
 """
 
-in_points, out_points = generate_points(500, triangle)
+in_points, out_points = generate_points(500, 0, triangle)
 
-fig= plt.figure(figsize=(5, 5))
-ax = plt.subplot()
-
-plt.xlim((0, 10))
-plt.ylim((0, 10))
-
-plt.xticks([])
-plt.yticks([])
-
-ax.scatter(in_points[:, 0], in_points[:, 1], s=5, c="blue")
-ax.scatter(out_points[:, 0], out_points[:, 1], s=5, c="red")
-
-patch = Polygon([a, b, c])
-patch.set_fill(False)
-ax.add_patch(patch)
-
-plt.show()    
-np.save("Sample_in.npy", in_points)
-np.save("Sample_out.npy", out_points)
-plt.savefig("Sample _img.png")
+save_points(in_points, out_points, "Sample_")
 
 """
 Generate points of different density
 """
 
-# for i in range(7):
+# for i in range(8):
 #     n = (i+1)*100
 
-#     in_points, out_points = generate_points(n, triangle)
-    
-#     fig= plt.figure(figsize=(5, 5))
-#     ax = plt.subplot()
+#     in_points, out_points = generate_points(n, 0, triangle)
 
-#     plt.xlim((0, 10))
-#     plt.ylim((0, 10))
+#     save_path = "n/n_"+str(n)
 
-#     plt.xticks([])
-#     plt.yticks([])
-
-#     ax.scatter(in_points[:, 0], in_points[:, 1], s=5, c="blue")
-#     ax.scatter(out_points[:, 0], out_points[:, 1], s=5, c="red")
-
-#     patch = Polygon([a, b, c])
-#     patch.set_fill(False)
-#     ax.add_patch(patch)
-
-#     # plt.show()    
-#     np.save("n_"+str(n)+"_in.npy", in_points)
-#     np.save("n_"+str(n)+"_out.npy", out_points)
-#     plt.savefig("n_"+str(n)+"_img.png")
+#     save_points(in_points, out_points, save_path)
 
 """
 Generate points of different fractions of outliers
@@ -95,20 +102,39 @@ Generate points of different fractions of outliers
 # for i in range(7):
 #     f = round(i*0.05, 2)
     
+#     in_points, out_points = generate_points(500, f, triangle)
+
+#     save_path = "f/f_"+str(f)
+
+#     save_points(in_points, out_points, save_path)
+
+"""
+Generate points within triangles of different perimeters
+"""
+
+# triangles = [
+#     [[3, 3], [7, 3], [, 7]],
+#     [[3, 3], [7, 3], [, 7]],
+#     [[3, 3], [7, 3], [, 7]],
+#     [[3, 3], [7, 3], [, 7]],
+#     [[3, 3], [7, 3], [, 7]],
+#     [[3, 3], [7, 3], [, 7]],
+#     [[3, 3], [7, 3], [, 7]]
+# ]
+
+# triangles = [
+#     [[, ], [, ], [, ]],
+#     [[, ], [, ], [, ]],
+#     [[, ], [, ], [, ]],
+#     [[, ], [, ], [, ]],
+#     [[, ], [, ], [, ]],
+#     [[, ], [, ], [, ]],
+#     [[, ], [, ], [, ]]
+# ]
+
+# for i in range(7):
+
 #     in_points, out_points = generate_points(500, triangle)
-
-#     if(f != 0):
-#         num_in_outliers = int(f*len(in_points))
-#         num_out_outliers = int(f*len(out_points))
-        
-#         np.random.shuffle(in_points)
-#         np.random.shuffle(out_points)
-
-#         in_outliers = in_points[:num_in_outliers, :]
-#         out_outliers = out_points[:num_out_outliers, :]
-
-#         in_points = np.vstack((in_points[num_in_outliers:, :], out_outliers))
-#         out_points = np.vstack((out_points[num_out_outliers:, :], in_outliers))
     
 #     fig= plt.figure(figsize=(5, 5))
 #     ax = plt.subplot()
@@ -127,6 +153,6 @@ Generate points of different fractions of outliers
 #     ax.add_patch(patch)
 
 #     # plt.show()    
-#     np.save("f_"+str(f)+"_in.npy", in_points)
-#     np.save("f_"+str(f)+"_out.npy", out_points)
-#     plt.savefig("f_"+str(f)+"_img.png")
+#     np.save("./p/p_"+str(f)+"_in.npy", in_points)
+#     np.save("./p/p_"+str(f)+"_out.npy", out_points)
+#     plt.savefig("./p/p_"+str(f)+"_img.png")
