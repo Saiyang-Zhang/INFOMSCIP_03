@@ -1,7 +1,7 @@
 from ast import List
 from matplotlib import path
 from matplotlib.patches import Polygon
-import INFOMSCIP_03 as gen
+import generator as gen
 import numpy as np
 
 # constants
