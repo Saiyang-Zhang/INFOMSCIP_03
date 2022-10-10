@@ -5,7 +5,7 @@ import generator as gen
 import numpy as np
 
 # constants
-repeat = 5
+repeat = 20
 q_size = 100
 k_nn = 5
 
