@@ -6,7 +6,7 @@ import numpy as np
 
 # constants
 repeat = 5
-q_size = 10000
+q_size = 100
 k_nn = 5
 
 # Performs a single experiment. Repeats it 20 times.
@@ -73,12 +73,12 @@ def kNN(k, p, S, classes):
 
 
 # temp
-triangle = [
-    [3, 3],
-    [7, 3],
-    [7, 7]
-]
-# pointsin, pointsout = gen.generate_points(500, 0, triangle)
-# print(np.concatenate((pointsin, pointsout)))
-# print(np.repeat([True], len(pointsin)))
-print(repeat_experiment(100, 0, triangle))
+# triangle = [
+#     [3, 3],
+#     [7, 3],
+#     [7, 7]
+# ]
+# # pointsin, pointsout = gen.generate_points(500, 0, triangle)
+# # print(np.concatenate((pointsin, pointsout)))
+# # print(np.repeat([True], len(pointsin)))
+# print(repeat_experiment(100, 0, triangle))
