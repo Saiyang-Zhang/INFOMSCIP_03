@@ -1,6 +1,7 @@
 from matplotlib import path
 from matplotlib.patches import Polygon
 
+import json
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -61,9 +62,14 @@ def save_points(in_points, out_points, polygon, save_path):
     patch.set_fill(False)
     ax.add_patch(patch)
 
-    # plt.show()    
-    np.save(save_path+"_in.npy", in_points)
-    np.save(save_path+"_out.npy", out_points)
+    points_dict = dict()
+    points_dict["in_points"] = in_points.tolist()
+    points_dict["out_points"] = out_points.tolist()
+    points_json = json.dumps(points_dict)
+    points_file = open(save_path+"_points.json", 'w')
+    points_file.write(points_json)
+    points_file.close()
+    # plt.show()
     plt.savefig(save_path+"_img.png")
 
 """
@@ -129,6 +135,6 @@ triangles = [
 
 #     in_points, out_points = generate_points(500, 0, t)
     
-#     save_path = "p/p_"+str(i+1)
+#     save_path = "d/d_"+str(i)
 
 #     save_points(in_points, out_points, t, save_path)
