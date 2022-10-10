@@ -18,3 +18,5 @@ def example():
     sd = 0.1 + 0.2 * range
 
     plot(range, mean, sd, 'example')
+
+#example()
