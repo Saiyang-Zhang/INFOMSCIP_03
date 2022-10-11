@@ -66,11 +66,13 @@ def save_points(in_points, out_points, polygon, save_path):
     points_dict = dict()
     points_dict["in_points"] = in_points.tolist()
     points_dict["out_points"] = out_points.tolist()
+
     points_json = json.dumps(points_dict)
+    
     points_file = open(save_path+"_points.json", 'w')
     points_file.write(points_json)
     points_file.close()
-    # plt.show()
+
     plt.savefig(save_path+"_img.png")
 
 """
