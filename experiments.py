@@ -6,7 +6,7 @@ import numpy as np
 
 # constants
 repeat = 20
-q_size = 100
+q_size = 10000
 k_nn = 5
 
 # Performs a single experiment. Repeats it 20 times.
