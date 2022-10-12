@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 import graph
+import table
 
 def read_results(path):
     mean = []
@@ -18,13 +19,19 @@ def read_results(path):
     return (res, mean, std)
 
 (r, m, s) = read_results('results/experiment_1')
-graph.errorbar(np.arange(100, 900, 100), m, s, 'Experiment 1', 'n', 'misclassifications', save='ex_1_errorbar')
-graph.boxplot(r, np.arange(100, 900, 100), 'Experiment 1', 'n', 'misclassifications', save='ex_1_boxplot')
+n = np.arange(100, 900, 100)
+graph.errorbar(n, m, s, 'Experiment 1', 'n', 'misclassifications', save='ex_1_errorbar')
+graph.boxplot(r, n, 'Experiment 1', 'n', 'misclassifications', save='ex_1_boxplot')
+table.create('n', n, m, s, save='ex_1_table')
 
 (r, m, s) = read_results('results/experiment_2')
-graph.errorbar(np.arange(0, 0.35, 0.05), m, s, 'Experiment 2', 'f', 'misclassifications', save='ex_2_errorbar')
-graph.boxplot(r, np.arange(0, 0.35, 0.05), 'Experiment 2', 'f', 'misclassifications', save='ex_2_boxplot')
+f = np.arange(0, 0.35, 0.05)
+graph.errorbar(f, m, s, 'Experiment 2', 'f', 'misclassifications', save='ex_2_errorbar')
+graph.boxplot(r, f, 'Experiment 2', 'f', 'misclassifications', save='ex_2_boxplot')
+table.create('f', f, m, s, save='ex_2_table')
 
 (r, m, s) = read_results('results/experiment_3')
-graph.errorbar(np.arange(0, 7, 1), m, s, 'Experiment 3', 'd', 'misclassifications', save='ex_3_errorbar')
-graph.boxplot(r, np.arange(0, 7, 1),'Experiment 3', 'd', 'misclassifications', save='ex_3_boxplot')
+d = np.arange(0, 7, 1)
+graph.errorbar(d , m, s, 'Experiment 3', 'd', 'misclassifications', save='ex_3_errorbar')
+graph.boxplot(r, d ,'Experiment 3', 'd', 'misclassifications', save='ex_3_boxplot')
+table.create('d', d, m, s, save='ex_3_table')
